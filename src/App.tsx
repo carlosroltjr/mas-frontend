@@ -1,14 +1,19 @@
 import { BrowserRouter as Router } from 'react-router-dom'
 
-import GlobalStyle from './styles/global'
+import {AppProvider} from './hooks'
 import Routes from './routes'
 
-function App() { 
+import GlobalStyle from './styles/global'
+
+function App() {
   return (
     <Router>
-      <Routes />
+      <AppProvider>
+        <Routes />
+      </AppProvider>
       <GlobalStyle />
     </Router>
   )
 }
+
 export default App

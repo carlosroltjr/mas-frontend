@@ -1,8 +1,32 @@
+import { useEffect, useState } from 'react'
+import { format, parseISO } from 'date-fns'
+
+import api from '../../services/api'
+
 import { Container } from './styles'
 
-export function ActivityTable(){
+interface CourseUnit {
+    name: string
+}
 
-    return(
+interface Activity {
+    id: string
+    name: string
+    grade: number
+    activityDate: string
+    courseUnit: CourseUnit
+}
+
+export function ActivityTable() {
+
+    const [activities, setActivities] = useState<Activity[]>([])
+
+    useEffect(() => {
+        api.get('/activity')
+            .then(response => setActivities(response.data))
+    },[])
+
+    return (
         <Container>
             <table>
                 <thead>
@@ -14,24 +38,18 @@ export function ActivityTable(){
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Programação Web</td>
-                        <td>Desenvolvimento do Frontend</td>
-                        <td>8.50</td>
-                        <td>05/04/2021</td>
-                    </tr>
-                    <tr>
-                        <td>Programação Web</td>
-                        <td>Implmentação de autenticação</td>
-                        <td>9.00</td>
-                        <td>05/04/2021</td>
-                    </tr>
-                    <tr>
-                        <td>Programação Web</td>
-                        <td>Alterar estilos de páginas</td>
-                        <td>10.00</td>
-                        <td>05/04/2021</td>
-                    </tr>
+                    {
+                        activities.map(activity => {
+                            return (
+                                <tr key={activity.id}>
+                                    <td>{activity.courseUnit.name}</td>
+                                    <td>{activity.name}</td>
+                                    <td>{activity.grade}</td>
+                                    <td>{format(parseISO(activity.activityDate), 'dd/MM/yyyy')}</td>
+                                </tr>
+                            )
+                        })
+                    }
                 </tbody>
             </table>
         </Container>

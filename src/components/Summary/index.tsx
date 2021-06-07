@@ -1,9 +1,41 @@
-import { GoFile, GoNote, GoGraph } from 'react-icons/go'
+import {useEffect, useState} from 'react'
+import {GoFile, GoNote, GoGraph} from 'react-icons/go'
 
-import { Container } from './styles'
+import api from '../../services/api'
 
-export function Summary(){
-    return(
+import {Container} from './styles'
+
+interface Activity {
+    id: string
+    name: string
+    grade: number
+    activityDate: Date
+}
+
+interface CourseUnit {
+    id: string
+    name: string
+    description: string
+}
+
+export function Summary() {
+
+    const [activities, setActivities] = useState<Activity[]>([])
+    const [courseUnits, setcourseUnits] = useState<CourseUnit[]>([])
+
+    useEffect(() => {
+
+        api.get('/activity')
+            .then(response => setActivities(response.data))
+    },[])
+
+    useEffect(() => {
+
+        api.get('/courseUnit')
+            .then(response => setcourseUnits(response.data))
+    },[])
+
+    return (
         <Container>
             <div>
                 <header>
@@ -11,16 +43,16 @@ export function Summary(){
                     <GoFile size={40} />
                 </header>
                 <strong>
-                    18
+                    {courseUnits.length}
                 </strong>
             </div>
             <div>
                 <header>
                     <p>Atividades</p>
-                    <GoNote size={40} />
+                    <GoNote size={45} />
                 </header>
                 <strong>
-                    66
+                    {activities.length}
                 </strong>
             </div>
             <div className="highlight-background">
@@ -29,7 +61,9 @@ export function Summary(){
                     <GoGraph size={40} />
                 </header>
                 <strong>
-                    8.74
+                    {Number(activities.reduce((average,activity) => {
+                       return average + Number(activity.grade)
+                    },0)/activities.length).toFixed(2)}
                 </strong>
             </div>
         </Container>

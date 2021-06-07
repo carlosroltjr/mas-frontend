@@ -32,8 +32,8 @@ export function Dashboard(){
     return(
         <>
             <Header 
-                onOpenActivityModal={handleOpenActivityModal}
-                onOpenCourseUnitModal={handleOpenCourseUnitModal}
+                onOpenNewActivityModal={handleOpenActivityModal}
+                onOpenNewCourseUnitModal={handleOpenCourseUnitModal}
             />
             <Container>
                 <Summary />
