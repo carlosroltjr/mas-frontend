@@ -16,7 +16,7 @@ interface NewActivityModalData {
   courseUnitId: string
   name: string
   grade: number
-  activity_date: Date
+  activityDate: Date
 }
 
 interface CourseUnit {
@@ -82,9 +82,9 @@ export function NewActivityModal({ isOpen, onRequestClose }: NewActivityModalPro
           <input
             type="date"
             placeholder="Data da atividade"
-            {...register("activity_date")}
+            {...register("activityDate")}
           />
-          {errors.activity_date && <Error>O prenchimento do campo é obrigatório</Error>}
+          {errors.activityDate && <Error>O prenchimento do campo é obrigatório</Error>}
           <button type="submit">
             Cadastrar
           </button>
